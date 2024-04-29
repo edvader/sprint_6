@@ -45,16 +45,15 @@ class MainPage(BasePage):
     def scrolling_to_questions(self):
         self.scroll_to_element(MainPageLocator.QUESTION_8)
 
-    @allure.step('Кликаем на вопрос и получаем ответ')
-    def click_on_question_and_get_answer(self, QUESTION_LOCATOR, ANSWER_LOCATOR, question_num):
-        method, locator = QUESTION_LOCATOR
-        locator = locator.format(question_num)
-        self.click_on_question((method, locator))
-        method, locator = ANSWER_LOCATOR
-        locator = locator.format(question_num)
-        return self.get_text_from_element((method, locator))
+    @allure.step('Кликаем на вопрос')
+    def click_important_question(self, number):
+        method, locator = MainPageLocator.QUESTION_LOCATOR
+        locator = locator.format(number)
+        element = [method, locator]
+        self.click_on_element(element)
 
-
-    @allure.step('Проверяем ожидаемый текст ответа с фактическим текс том ответа')
-    def check_answer(self, result, expected_answer):
-        return result == expected_answer
+    @allure.step('получаем ответ')
+    def get_important_reply(self, number):
+        method, locator = MainPageLocator.ANSWER_LOCATOR
+        locator = locator.format(number)
+        return self.driver.find_element(method, locator).text
